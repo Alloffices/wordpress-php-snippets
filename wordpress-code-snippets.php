@@ -1,8 +1,135 @@
+*******************************
+Config file **************************************
+*******************************
 1. Increase Memory Limit
 define('WP_MEMORY_LIMIT', '96M');
 
 2. Empty Trash Automatically
 define('EMPTY_TRASH_DAYS', 5 );
+
+Block Bad Users From Accessing Your WordPress:
+
+Order Allow,Deny
+Deny from all
+
+------OR------
+
+order allow,deny
+deny from 192.168.1.2
+deny from 10.130.130.6
+deny from 172.16.130.106
+allow from all
+
+*******************************
+Authentication Unique Keys and Salts
+*******************************
+
+URL: https://api.wordpress.org/secret-key/1.1/salt/
+<!--
+define('AUTH_KEY',         '|B `gXmdr;v:m<KqDgDWiAPhAw-hy+g1?U^xyA+s]- :(M$uns^RunWojgSWR4 7');
+define('SECURE_AUTH_KEY',  'gLBtj+2%SKJmmJf5|F$ky93t,WC.#pmf}Rx|u3NEUFg}*=]K>FYy;fI!/v8F)Wr0');
+define('LOGGED_IN_KEY',    'z`5bsV,!Tt$aOLN&]96Xz2z_BBokJN0W3S>;YP:OH19)]?;DWE|TMU)DDzZ{lpNU');
+define('NONCE_KEY',        '|^yQy5k4Lt5%N8m1DxmW]tD#o7E~hKlp<l*C>:7Z0`gr{~#G/yimk_rrcTO+D#+H');
+define('AUTH_SALT',        'Ld+s}7F.ihu)4p(ll<>D{tW-QbS$*k0;g8=Nx7@DsPS|Q8i%v*T^r|Ztg)G|39y6');
+define('SECURE_AUTH_SALT', 'v`-HbT1X!R5x>%|V,Rz^:BrLN!^p<xl+%@|ztx!Ij3Rr9,x|4V7kqs$FDe@^?RtL');
+define('LOGGED_IN_SALT',   '^%|fG1rp2,9zeV,< CGXU+@07J.+XoY3K9c:YY0@/<^9lh0VE/--!aGR:-Y|kFm,');
+define('NONCE_SALT',       '!~+[>H_>4]rbzJ?nbI,t;#AXcc0ysPO!99&A6szV`Z<R`Q!?/79_MyG<]D/e/|/h'); 
+-->
+
+*******************************
+WordPress Database Table prefix
+*******************************
+
+The default value, as seen below, is “wp_”:
+
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each a unique
+ * prefix. Only numbers, letters, and underscores please!
+ */
+$table_prefix  = 'wp_';
+
+*******************************
+Automated Trash
+*******************************
+
+define('EMPTY_TRASH_DAYS', 7); // empty weekly
+
+define('EMPTY_TRASH_DAYS', 0); // disable trash
+
+*******************************
+Blog Address and Site Address
+*******************************
+
+define('WP_HOME', 'https://digwp.com'); // no trailing slash
+define('WP_SITEURL', 'https://digwp.com');  // no trailing slash
+
+*******************************
+Debugging WordPress
+*******************************
+
+define('WP_DEBUG', true); // debugging mode: 'true' = enable; 'false' = disable
+
+*******************************
+Increase PHP Memory
+*******************************
+
+define('WP_MEMORY_LIMIT', '64M');
+define('WP_MEMORY_LIMIT', '96M');
+define('WP_MEMORY_LIMIT', '128M');
+
+*******************************
+Make URLs SEO-friendly and future-proof
+*******************************
+
+<Files magic>
+	ForceType application/x-httpd-php5
+</Files>
+
+*******************************
+Improve caching for better site speed
+*******************************
+
+<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|css|pdf)$">
+	Header set Cache-Control "max-age=28800"
+</FilesMatch>
+
+*******************************
+GZIP compression - make your site load faster
+*******************************
+
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+  mod_gzip_dechunk Yes
+  mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+  mod_gzip_item_include handler ^cgi-script$
+  mod_gzip_item_include mime ^text/.*
+  mod_gzip_item_include mime ^application/x-javascript.*
+  mod_gzip_item_exclude mime ^image/.*
+  mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+
+*******************************
+Redirect 301
+*******************************
+
+Redirect 301 / http://www.newsite.com/
+Redirect 301 /old.htm /new.htm
+
+Make sure Keep-Alive is turned on in your server config.
+<ifModule mod_headers.c> Header set Connection keep-alive </ifModule>
+
+*******************************
+
+*******************************
+
+
+
+*******************************
+Redirect 301
+*******************************
+
 
 3. Filter the Loop
 <?php
@@ -783,4 +910,3 @@ Media
 	add_filter('wp_generate_attachment_metadata','replace_uploaded_image');
 ?>
 
-43. 
