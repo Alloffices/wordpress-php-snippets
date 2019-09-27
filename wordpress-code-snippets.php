@@ -910,3 +910,204 @@ Media
 	add_filter('wp_generate_attachment_metadata','replace_uploaded_image');
 ?>
 
+<!-- #----------- -->
+Display Search Terms from Google Users
+<!-- #----------- -->
+
+Do you want to display a custom welcome message and search terms 
+for users coming from Google search? While there’s probably a 
+plugin for this, we have created a quick code snippet that you can use 
+to display search terms from Google users in WordPress.
+
+Instructions:
+
+All you have to do is add this code to your theme’s index.php file:
+
+<?php
+$refer = $_SERVER["HTTP_REFERER"];
+if (strpos($refer, "google")) {
+    $refer_string = parse_url($refer, PHP_URL_QUERY);
+    parse_str($refer_string, $vars);
+    $search_terms = $vars['q'];
+    echo 'Welcome Google visitor! You searched for the following terms to get here: ';
+    echo $search_terms;
+};
+?>
+
+
+<!-- #----------- -->
+Detect Which Browser Your WordPress Visitors are Using
+<!-- #----------- -->
+
+If you want to use different stylesheets for different browsers, 
+then this is a snippet you could use. It detects the browser your 
+visitors are using and creates a different class for each browser. 
+You can use that class to create custom stylesheets.
+
+add_filter('body_class','browser_body_class');
+function browser_body_class($classes) {
+global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+if($is_lynx) $classes[] = 'lynx';
+elseif($is_gecko) $classes[] = 'gecko';
+elseif($is_opera) $classes[] = 'opera';
+elseif($is_NS4) $classes[] = 'ns4';
+elseif($is_safari) $classes[] = 'safari';
+elseif($is_chrome) $classes[] = 'chrome';
+elseif($is_IE) $classes[] = 'ie';
+else $classes[] = 'unknown';
+if($is_iphone) $classes[] = 'iphone';
+return $classes;
+}
+
+<!-- #----------- -->
+Reset Your WordPress Password
+<!-- #----------- -->
+
+What would you do if you forget your WordPress Admin 
+Password and you no longer have access to the admin area? 
+To fix this all you have to do is jump to your PhpMyAdmin 
+Sql-window and run the following command.
+
+UPDATE `wp_users` SET `user_pass` = MD5('NEW_PASSWORD') WHERE `wp_users`.`user_login` =`YOUR_USER_NAME` LIMIT 1;
+
+<!-- #----------- -->
+Screenshots of External WordPress Pages Without a Plugin
+<!-- #----------- -->
+
+This is a very simple URL script that will generate a screenshot of any website. Here is the URL:
+
+To see what the link above does, click here:
+https://s.wordpress.com/mshots/v1/http%3A%2F%2Fgoogle.com%2F?w=500
+
+<!-- #----------- -->
+List Scheduled/Future WordPress Posts
+<!-- #----------- -->
+
+Paste the code anywhere on your template where you want 
+your scheduled posts to be listed, changing the max number 
+or displayed posts by changing the value of showposts in 
+the query.
+
+<?php
+$my_query = new WP_Query('post_status=future&order=DESC&showposts=5');
+if ($my_query->have_posts()) {
+    while ($my_query->have_posts()) : $my_query->the_post();
+        $do_not_duplicate = $post->ID; ?>
+        <li><?php the_title(); ?></li>
+    <?php endwhile;
+}
+?>
+
+<!-- #----------- -->
+Custom WordPress Excerpts
+<!-- #----------- -->
+
+Sometimes you may need to limit how many words are in the excerpt, 
+with this snippet you can create your own custom excerpt (my_excerpts) 
+replacing the original.
+
+Paste this code in functions.php.
+
+<?php add_filter('the_excerpt', 'my_excerpts');
+function my_excerpts($content = false) {
+            global $post;
+            $mycontent = $post->post_excerpt;
+ 
+            $mycontent = $post->post_content;
+            $mycontent = strip_shortcodes($mycontent);
+            $mycontent = str_replace(']]>', ']]&gt;', $mycontent);
+            $mycontent = strip_tags($mycontent);
+            $excerpt_length = 55;
+            $words = explode(' ', $mycontent, $excerpt_length + 1);
+            if(count($words) > $excerpt_length) :
+                array_pop($words);
+                array_push($words, '...');
+                $mycontent = implode(' ', $words);
+            endif;
+            $mycontent = '<p>' . $mycontent . '</p>';
+// Make sure to return the content
+    return $mycontent;
+}
+?>
+
+<!-- #----------- -->
+Custom Title Length
+<!-- #----------- -->
+
+This snippet will allow you to customise 
+the length (by the number of characters) of your post title.
+
+Paste this code into the functions.php:
+
+function ODD_title($char)
+    {
+    $title = get_the_title($post->ID);
+    $title = substr($title,0,$char);
+    echo $title;
+    }
+
+To use this function all you have to do is paste the below code
+into your theme files, remembering to change the ’20’ to what 
+ever character amount you require:
+
+<?php ODD_title(20); ?>
+
+<!-- #----------- -->
+Display an External RSS Feed in WordPress
+<!-- #----------- -->
+
+This snippet will fetch the latest entries of any specified feed url.
+
+<?php include_once(ABSPATH.WPINC.'/rss.php');
+wp_rss('http://wpforums.com/external.php?type=RSS2', 5); ?>
+
+This code takes the rss.php file that is built into WordPress (used 
+for widgets). It is set to display the most recent 5 posts from the 
+RSS feed ‘http://example.com/external.php?type=RSS2’.
+
+
+<!-- #----------- -->
+WordPress Breadcrumbs Without a Plugin
+<!-- #----------- -->
+
+Breadcrumbs can be a useful navigation technique that 
+offers link to the previous page the user navigated through 
+to arrive at the current post/page. There are plugins you 
+could use, but the code snippet below could be an easier solution.
+
+Paste this code into your functions.php file.
+
+function the_breadcrumb() {
+echo '<ul id="crumbs">';
+if (!is_home()) {
+echo '<li><a href="';
+echo get_option('home');
+echo '">';
+echo 'Home';
+echo "</a></li>";
+if (is_category() || is_single()) {
+echo '<li>';
+the_category(' </li><li> ');
+if (is_single()) {
+echo "</li><li>";
+the_title();
+echo '</li>';
+}
+} elseif (is_page()) {
+echo '<li>';
+echo the_title();
+echo '</li>';
+}
+}
+elseif (is_tag()) {single_tag_title();}
+elseif (is_day()) {echo"<li>Archive for "; the_time('F jS, Y'); echo'</li>';}
+elseif (is_month()) {echo"<li>Archive for "; the_time('F, Y'); echo'</li>';}
+elseif (is_year()) {echo"<li>Archive for "; the_time('Y'); echo'</li>';}
+elseif (is_author()) {echo"<li>Author Archive"; echo'</li>';}
+elseif (isset($_GET['paged']) && !empty($_GET['paged'])) {echo "<li>Blog Archives"; echo'</li>';}
+elseif (is_search()) {echo"<li>Search Results"; echo'</li>';}
+echo '</ul>';
+}
+Then paste the calling code below, wherever you would like the breadcrumbs to appear (typically above the title tag).
+
+<?php the_breadcrumb(); ?>
