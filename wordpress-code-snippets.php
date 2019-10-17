@@ -1111,3 +1111,57 @@ echo '</ul>';
 Then paste the calling code below, wherever you would like the breadcrumbs to appear (typically above the title tag).
 
 <?php the_breadcrumb(); ?>
+
+
+<!-- #----------- -->
+Custom WooCommerce Shop.php Featured Products Loop 
+<!-- #----------- -->
+
+Little snippet will loop through the featured products and show on home page
+or a template page for example.
+
+<?php
+
+$meta_query  = WC()->query->get_meta_query();
+$tax_query   = WC()->query->get_tax_query();
+$tax_query[] = array(
+'taxonomy' => 'product_visibility',
+'field'    => 'name',
+'terms'    => 'featured',
+'operator' => 'IN',
+);
+
+$args = array(
+'post_type'           => 'product',
+'post_status'         => 'publish',
+'ignore_sticky_posts' => 1,
+'posts_per_page'      => $atts['per_page'],
+'orderby'             => $atts['orderby'],
+'order'               => $atts['order'],
+'meta_query'          => $meta_query,
+'tax_query'           => $tax_query,
+);
+
+$loop = new WP_Query( $args );
+while ( $loop->have_posts() ) : $loop->the_post(); global $product; ?>
+
+
+<div class="col-xs-12 col-sm-6 col-lg-3">
+   <article class="tw-instruction">
+
+      <?php 
+	  if ( has_post_thumbnail( $loop->post->ID ) ) 
+	      echo get_the_post_thumbnail( $loop->post->ID, 'shop_catalog' );
+	  else  echo '<img src="' . woocommerce_placeholder_img_src() . '" alt="Placeholder" width="100%" height="auto" />'; ?>
+      <h3><?php the_title(); ?></h3>
+      <p>Test</p>
+      <span class="badge badge-warning hidden-xs hidden-sm m-r-1"><a style="color:#fff;text-decoration:none;" href="https://google.com">info</a></span><?php echo $product->get_price_html();  ?><br />
+      <?php echo woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
+   </article>
+</div>
+
+
+<?php 
+endwhile;
+wp_reset_query(); 
+?>
