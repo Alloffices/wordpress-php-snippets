@@ -78,6 +78,7 @@ Increase PHP Memory
 define('WP_MEMORY_LIMIT', '64M');
 define('WP_MEMORY_LIMIT', '96M');
 define('WP_MEMORY_LIMIT', '128M');
+define('WP_MEMORY_LIMIT', '256M');
 
 *******************************
 Make URLs SEO-friendly and future-proof
