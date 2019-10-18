@@ -1172,3 +1172,12 @@ while ( $loop->have_posts() ) : $loop->the_post(); global $product; ?>
 endwhile;
 wp_reset_query(); 
 ?>
+
+<!-- #----------- -->
+Gets current cart $ amount total
+<!-- #----------- -->
+
+Example: $30.00
+Reference: https://docs.woocommerce.com/wc-apidocs/class-WC_Cart.html#_get_totals
+
+<?php $ordertotal = wp_kses_data( WC()->cart->get_total() ); ?>
