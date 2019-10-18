@@ -81,6 +81,12 @@ define('WP_MEMORY_LIMIT', '128M');
 define('WP_MEMORY_LIMIT', '256M');
 
 *******************************
+Disable the theme and plugin editor
+*******************************
+
+define('DISALLOW_FILE_EDIT',true);
+
+*******************************
 Make URLs SEO-friendly and future-proof
 *******************************
 
