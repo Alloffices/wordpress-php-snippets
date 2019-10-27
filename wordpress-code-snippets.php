@@ -1341,4 +1341,13 @@ Paginate Custom Post Types
   $wp_query = $temp;  // Reset
 ?>
 
+<!-- -------------------------- -->
+WooCommerce Page Shortcodes
+<!-- -------------------------- -->
 
+Snippets Reference: https://docs.woocommerce.com/document/woocommerce-shortcodes/
+
+[woocommerce_cart] – shows the cart page
+[woocommerce_checkout] – shows the checkout page
+[woocommerce_my_account] – shows the user account page
+[woocommerce_order_tracking] – shows the order tracking form
