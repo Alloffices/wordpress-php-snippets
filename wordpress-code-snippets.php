@@ -1263,3 +1263,31 @@ $post_date = get_the_date( 'D M j' ); echo $post_date;
 	    wp_reset_query();
 	}
 ?>
+
+<!-- ------------------------ -->
+Apply Custom CSS to Admin Area
+<!-- ------------------------ -->
+
+add_action('admin_head', 'my_custom_fonts');
+
+function my_custom_fonts() {
+  echo '<style>
+    body, td, textarea, input, select {
+      font-family: "Lucida Grande";
+      font-size: 12px;
+    }
+    body,
+    #wpadminbar,
+    #adminmenu, #adminmenu .wp-submenu, #adminmenuback, #adminmenuwrap {
+    	background: #1b1c1d !important;
+    }
+    .wp-filter {
+	    border: 1px solid #262829;
+	    background: #262829;
+        border-radius: 5px;
+    }
+    h1 {
+    	color:#fff;
+    }
+  </style>';
+}
