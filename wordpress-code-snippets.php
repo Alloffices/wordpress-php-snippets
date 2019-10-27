@@ -1232,6 +1232,15 @@ $post_date = get_the_date( 'D M j' ); echo $post_date;
 <!-- Show the custom field value in custom post type plugin by using get_post_meta($post->ID, 'game_offer', true); function -->
 <?php echo get_post_meta($post->ID, 'game_offer', true); ?>
 
+<!-- Get woocommerce product price by id -->
+$product = wc_get_product( $post_id );
+global $post, $product;
+
+$product->get_regular_price();
+$product->get_sale_price();
+$product->get_price();
+$product->get_sku();
+
 <!-- for use in the loop, list 5 post titles related to first tag on current post -->
 <?php
 	$tags = wp_get_post_tags($post->ID);
@@ -1331,3 +1340,5 @@ Paginate Custom Post Types
   $wp_query = null; 
   $wp_query = $temp;  // Reset
 ?>
+
+
