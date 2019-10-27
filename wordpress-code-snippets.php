@@ -1181,3 +1181,85 @@ Example: $30.00
 Reference: https://docs.woocommerce.com/wc-apidocs/class-WC_Cart.html#_get_totals
 
 <?php $ordertotal = wp_kses_data( WC()->cart->get_total() ); ?>
+
+
+
+<!-- #----------- -->
+Single Post Snippets
+<!-- #----------- -->
+
+<?php echo get_the_title(); ?>
+<?php echo esc_html( get_the_title() ); ?>
+
+<?php the_title_attribute(); ?>
+<!-- If you are going to add alt titles to an element do this: -->
+' . esc_attr( the_title_attribute() ) . '
+
+<?php the_content(); ?>
+<?php the_content( 'Read more ...' ); ?>
+
+<?php the_excerpt(); ?>
+
+<?php the_permalink(); ?>
+<!-- If you are going to add permalink to a <a> element do this:  -->
+' . esc_url( get_permalink() ) . '
+
+<?php echo get_the_date(); ?>
+<!-- To make the date appear as “Monday January 11, 2017”, for example, use -->
+$post_date = get_the_date( 'l F j, Y' ); echo $post_date;
+
+<!-- To make the date appear as “Wed Jan 9”, for example, use -->
+$post_date = get_the_date( 'D M j' ); echo $post_date;
+
+<!-- without parameter -> Post Thumbnail (as set by theme using set_post_thumbnail_size()) -->
+<?php get_the_post_thumbnail( $post_id ); ?>
+ 
+<?php get_the_post_thumbnail( $post_id, 'thumbnail' ); ?> <!-- Thumbnail (Note: different to Post Thumbnail) -->
+<?php get_the_post_thumbnail( $post_id, 'medium' ); ?> <!-- Medium resolution -->
+<?php get_the_post_thumbnail( $post_id, 'large' ); ?> <!-- Large resolution -->
+<?php get_the_post_thumbnail( $post_id, 'full' ); ?> <!-- Original resolution -->
+ 
+<?php get_the_post_thumbnail( $post_id, array( 100, 100) ); ?> <!-- Other resolutions -->
+
+<!-- ACF Plugin -->
+<?php get_field('field name'); ?>
+<!-- Custom Field Post: -->
+<?php echo the_meta(); ?>
+<!-- Show the custom field value in custom post type plugin by using get_post_meta($post->ID, 'game_offer', true); function -->
+<?php echo get_post_meta($post->ID, 'game_offer', true); ?>
+
+<!-- for use in the loop, list 5 post titles related to first tag on current post -->
+<?php
+	$tags = wp_get_post_tags($post->ID);
+	if ($tags) {
+	    echo 'Related Posts';
+	    $first_tag = $tags[0]->term_id;
+	    $args      = array(
+	        'tag__in' => array(
+	            $first_tag
+	        ),
+	        'post__not_in' => array(
+	            $post->ID
+	        ),
+	        'posts_per_page' => 5,
+	        'caller_get_posts' => 1
+	    );
+	    $my_query  = new WP_Query($args);
+	    if ($my_query->have_posts()) {
+	        while ($my_query->have_posts()):
+	            $my_query->the_post();
+	?>
+	<a href="<?php
+	            the_permalink();
+	?>" rel="bookmark" title="Permanent Link to <?php
+	            the_title_attribute();
+	?>"><?php
+	            the_title();
+	?></a>
+	 
+	<?php
+	        endwhile;
+	    }
+	    wp_reset_query();
+	}
+?>
