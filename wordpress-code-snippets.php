@@ -1188,6 +1188,10 @@ Reference: https://docs.woocommerce.com/wc-apidocs/class-WC_Cart.html#_get_total
 Single Post Snippets
 <!-- #----------- -->
 
+<?php echo get_avatar( get_the_author_email(), '80' ); ?>
+<?php the_author_meta( "display_name" ); ?>
+<?php the_author_meta( "user_description" ); ?>
+
 <?php echo get_the_title(); ?>
 <?php echo esc_html( get_the_title() ); ?>
 
