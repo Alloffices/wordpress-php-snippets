@@ -1300,3 +1300,30 @@ function custom_login_logo() {
 	echo '<style type="text/css">h1 a { background: url('.get_bloginfo('template_directory').'/images/logo-login.gif) 50% 50% no-repeat !important; }</style>';
 }
 add_action('login_head', 'custom_login_logo');
+
+<!-- -------------------------- -->
+Paginate Custom Post Types
+<!-- -------------------------- -->
+
+<?php 
+  $temp = $wp_query; 
+  $wp_query = null; 
+  $wp_query = new WP_Query(); 
+  $wp_query->query('showposts=6&post_type=news'.'&paged='.$paged); 
+
+  while ($wp_query->have_posts()) : $wp_query->the_post(); 
+?>
+
+  <!-- LOOP: Usual Post Template Stuff Here-->
+
+<?php endwhile; ?>
+
+<nav>
+    <?php previous_posts_link('&laquo; Newer') ?>
+    <?php next_posts_link('Older &raquo;') ?>
+</nav>
+
+<?php 
+  $wp_query = null; 
+  $wp_query = $temp;  // Reset
+?>
