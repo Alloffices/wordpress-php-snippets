@@ -1291,3 +1291,12 @@ function my_custom_fonts() {
     }
   </style>';
 }
+
+<!-- -------------------- -->
+Customize Login Page
+<!-- -------------------- -->
+
+function custom_login_logo() {
+	echo '<style type="text/css">h1 a { background: url('.get_bloginfo('template_directory').'/images/logo-login.gif) 50% 50% no-repeat !important; }</style>';
+}
+add_action('login_head', 'custom_login_logo');
