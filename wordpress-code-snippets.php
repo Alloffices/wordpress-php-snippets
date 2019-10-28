@@ -1179,6 +1179,8 @@ wp_reset_query();
 You have access to $product
 <!-- #----------- -->
 
+<!-- Code Reference: https://businessbloomer.com/woocommerce-easily-get-product-info-title-sku-desc-product-object/ -->
+
 <?php 
 
 // Get Product ID
