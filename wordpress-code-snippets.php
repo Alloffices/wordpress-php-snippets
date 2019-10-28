@@ -1181,6 +1181,12 @@ You have access to $product
 
 <!-- Code Reference: https://businessbloomer.com/woocommerce-easily-get-product-info-title-sku-desc-product-object/ -->
 
+<?php
+	global $woocommerce;
+	$product = new WC_Product(get_the_ID()); 
+	echo $product->get_price_html(); //Shows the price
+?>
+
 <?php 
 
 // Get Product ID
