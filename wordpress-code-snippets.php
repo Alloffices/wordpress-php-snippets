@@ -1499,3 +1499,38 @@ Snippets Reference: https://docs.woocommerce.com/document/woocommerce-shortcodes
 [woocommerce_checkout] – shows the checkout page
 [woocommerce_my_account] – shows the user account page
 [woocommerce_order_tracking] – shows the order tracking form
+
+
+<!-- -------------------------- -->
+How to Get Current User Role in WordPress & Display Roles
+- The call to wp_get_current_user() returns the WP_User object.
+Link: https://developer.wordpress.org/reference/functions/wp_get_current_user/
+<!-- -------------------------- -->
+
+<?php
+$current_user = wp_get_current_user();
+ 
+/*
+ * @example Safe usage: $current_user = wp_get_current_user();
+ * if ( ! ( $current_user instanceof WP_User ) ) {
+ *     return;
+ * }
+ */
+printf( __( 'Username: %s', 'textdomain' ), esc_html( $current_user->user_login ) ) . '<br />';
+printf( __( 'User email: %s', 'textdomain' ), esc_html( $current_user->user_email ) ) . '<br />';
+printf( __( 'User first name: %s', 'textdomain' ), esc_html( $current_user->user_firstname ) ) . '<br />';
+printf( __( 'User last name: %s', 'textdomain' ), esc_html( $current_user->user_lastname ) ) . '<br />';
+printf( __( 'User display name: %s', 'textdomain' ), esc_html( $current_user->display_name ) ) . '<br />';
+printf( __( 'User ID: %s', 'textdomain' ), esc_html( $current_user->ID ) );
+
+*****EXTENDED*****
+*****EXTENDED*****
+
+<!-- -------------------------- -->
+Just want the ID (and nothing else)?
+Just use get_current_user_id() instead:
+Link: https://developer.wordpress.org/reference/functions/get_current_user_id/
+<!-- -------------------------- -->
+	
+$current_user_id = get_current_user_id();
+$current_user = wp_get_current_user();
